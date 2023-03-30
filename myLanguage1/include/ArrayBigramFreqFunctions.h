@@ -26,7 +26,7 @@
  * @param dim The capacity of the array. Input parameter
  * @param nElements The number of elements used by the array. Output parameter
 */
-void readArrayBigramFreq(BigramFreq array[], int dim, int nElements);
+void readArrayBigramFreq(BigramFreq array[], int dim, int &nElements);
 
 /**
  * @brief Prints in the standard output the number of used elements and the 

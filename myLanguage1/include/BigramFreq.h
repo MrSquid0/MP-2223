@@ -44,7 +44,7 @@ public:
      * Query method
      * @return The frequency of this BigramFreq object
      */
-    int getFrequency();
+    int getFrequency() const;
 
     /**
      * @brief Sets the Bigram of this BigramFreq object

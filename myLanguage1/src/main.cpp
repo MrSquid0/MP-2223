@@ -22,7 +22,43 @@
  * Running example:
  * > language1 < data/miniquijotebigrams.txt 
  */
-int main(int argc, char* argv[]) {
 
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+#include "ArrayBigramFreqFunctions.h"
+
+int main(){
+
+    //Declaration of variables for the main program
+    const int NUM_MAX_BIGRAMS = 1000;
+    int nElements;
+    char text[3];
+    int frequency;
+    BigramFreq bigrams[NUM_MAX_BIGRAMS];
+
+    //Input of number of Elements
+    std::cin >> nElements;
+
+    //Input of each bigram of frequency
+    for (int i=0; i<nElements; i++){
+        std::cin >> text;
+        std::cin >> frequency;
+        bigrams[i].setBigram(text);
+        bigrams[i].setFrequency(frequency);
+    }
+
+    //Reading nElements and the capacity of the bigram of frequency
+    readArrayBigramFreq(bigrams, NUM_MAX_BIGRAMS, nElements);
+
+    //Sorting the array of Bigram of Frequency
+    sortArrayBigramFreq(bigrams, nElements);
+    
+    //Capitalizing each Bigram of Frequency
+    toUpperArrayBigramFreq(bigrams, nElements);
+    
+    //Priting each Bigram of Frequency
+    printArrayBigramFreq(bigrams, nElements);
 }
-
