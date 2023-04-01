@@ -5,7 +5,7 @@ BigramFreq::BigramFreq(){
     _frequency = 0;
 }
 
-Bigram BigramFreq::getBigram(){
+Bigram BigramFreq::getBigram() const{
     return _bigram;
 }
 
@@ -17,7 +17,7 @@ void BigramFreq::setBigram (Bigram bigram){
     _bigram = bigram;
 }
 
-void BigramFreq::setFrequency (int frequency){
+void BigramFreq::setFrequency (const int frequency){
     if (frequency < 0){
         throw std::out_of_range("La frequencia dada de " 
                 + std::to_string(frequency) + " no puede ser negativa.");
@@ -25,7 +25,7 @@ void BigramFreq::setFrequency (int frequency){
     _frequency = frequency;
 }
 
-std::string BigramFreq::toString(){
+std::string BigramFreq::toString() const{
     std::string bigramWithFreq = "";
     
     bigramWithFreq += this->_bigram.toString();

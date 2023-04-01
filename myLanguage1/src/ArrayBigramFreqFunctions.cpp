@@ -1,6 +1,6 @@
 #include "ArrayBigramFreqFunctions.h"
 
-void readArrayBigramFreq(BigramFreq array[], int dim, int &nElements){
+void readArrayBigramFreq(const BigramFreq array[], int dim, int &nElements){
     if (nElements > dim){
         nElements = dim;
     }
@@ -10,7 +10,7 @@ void readArrayBigramFreq(BigramFreq array[], int dim, int &nElements){
     }
 }
 
-void printArrayBigramFreq(BigramFreq array[], int nElements){
+void printArrayBigramFreq(const BigramFreq array[], int nElements){
     std::cout << nElements << std::endl;
     for (int i=0; i<nElements; i++){
         std::cout << array[i].getBigram().toString() << " " 
@@ -32,6 +32,17 @@ void swapElementsArrayBigramFreq(BigramFreq array[], int nElements,
     array[second] = arrayAuxiliar;
 }
 
+char sortDraw(const BigramFreq bigram[], const int i, const int j){
+    char chosenLetter;
+    if (bigram[i].getBigram().getText() >= bigram[j].getBigram().getText()){
+        chosenLetter = 'i';
+    } else {
+        chosenLetter = 'j';
+    }
+    return chosenLetter;
+}
+
+/*
 char sortDraw(BigramFreq bigram[], const int i, const int j){
     if (bigram[i].getBigram().at(0) >= bigram[j].getBigram().at(0)){
         if (bigram[i].getBigram().at(0) == bigram[j].getBigram().at(0)){
@@ -46,7 +57,7 @@ char sortDraw(BigramFreq bigram[], const int i, const int j){
     } else {
         return 'j';
     }
-}
+}*/
 
 void sortArrayBigramFreq(BigramFreq array[], int nElements){
     for (int i=0; i<nElements; i++){

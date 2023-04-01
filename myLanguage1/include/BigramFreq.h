@@ -37,7 +37,7 @@ public:
      * Query method
      * @return A const reference to the Bigram of this BigramFreq object
      */
-    Bigram getBigram();
+    Bigram getBigram() const;
 
     /**
      * @brief Gets the frequency of this BigramFreq object
@@ -67,7 +67,7 @@ public:
      * @return A string with the string and frecuency of the bigram
      * in this object. 
      */
-    std::string toString();
+    std::string toString() const;
 
 private:
     Bigram _bigram; ///< the Bigram object

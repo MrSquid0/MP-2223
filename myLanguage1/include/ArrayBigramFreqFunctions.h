@@ -26,7 +26,7 @@
  * @param dim The capacity of the array. Input parameter
  * @param nElements The number of elements used by the array. Output parameter
 */
-void readArrayBigramFreq(BigramFreq array[], int dim, int &nElements);
+void readArrayBigramFreq(const BigramFreq array[], int dim, int &nElements);
 
 /**
  * @brief Prints in the standard output the number of used elements and the 
@@ -34,7 +34,7 @@ void readArrayBigramFreq(BigramFreq array[], int dim, int &nElements);
  * @param array The array of BigramFreq to be printed. Input parameter
  * @param nElements The number of elements used by the array. Input parameter
 */
-void printArrayBigramFreq(BigramFreq array[], int nElements);
+void printArrayBigramFreq(const BigramFreq array[], int nElements);
 
 /**
  * @brief Swaps the elements at positions @p first and @p second in the given
@@ -49,6 +49,15 @@ void printArrayBigramFreq(BigramFreq array[], int nElements);
 void swapElementsArrayBigramFreq(BigramFreq array[], int nElements, int first,
                 int second);
 
+/**
+ * @brief Indicates which bigram is first alphabetically 
+ * in case the frequency of 2 bigrams are the same. 
+ * Method added by the student.
+ * @param bigram Array of bigrams of frequency to compare
+ * @param i Position of the first bigram
+ * @param j Position of the second bigram
+ */
+char sortDraw(const BigramFreq bigram[], const int i, const int j);
 
 /**
  * @brief Sorts the given array of BigramFreq in decreasing order of 
