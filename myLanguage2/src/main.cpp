@@ -12,15 +12,17 @@
  * Created on 7 de febrero de 2023, 14:02
  */
 
+#include <iostream>
+#include <fstream>
 
 /**
  * Shows help about the use of this program in the given output stream
  * @param outputStream The output stream where the help will be shown (for example,
  * cout, cerr, etc) 
  */
-void showEnglishHelp(ostream& outputStream) {
-    outputStream << "Error, run with the following parameters:" << endl;
-    outputStream << "language2 <file1.bgr> [<file2.bgr> ... <filen.bgr>] <outputFile.bgr> " << endl;
+void showEnglishHelp(std::ostream& outputStream) {
+    outputStream << "Error, run with the following parameters:" << std::endl;
+    outputStream << "language2 <file1.bgr> [<file2.bgr> ... <filen.bgr>] <outputFile.bgr> " << std::endl;
 }
 
 /**
@@ -38,6 +40,17 @@ void showEnglishHelp(ostream& outputStream) {
  * > language2 <file1.bgr> [<file2.bgr> ... <filen.bgr>] <outputFile.bgr> 
  */
 int main(int argc, char* argv[]) {
-
+    if (argc < 2){
+        showEnglishHelp();
+        exit(1);
+    }
+    
+    int numberOfLanguages = argc - 1;
+    int languagesRead = 0;
+    
+    while (languagesRead != numberOfLanguages){
+        std::fstream fentrada;
+        
+    }
 }
 

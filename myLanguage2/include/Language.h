@@ -172,6 +172,11 @@ private:
     BigramFreq _vectorBigramFreq[DIM_VECTOR_BIGRAM_FREQ]; ///< array of BigramFreq
     int _size; ///< Number of elements in _vectorBigramFreq
     static const std::string MAGIC_STRING_T; ///< A const string with the magic string for text files
+    
+    //Private functions that are used in sort()
+    void swapElementsArrayBigramFreq(BigramFreq array[], int nElements, 
+        int first, int second);
+    char sortDraw(const BigramFreq bigram[], const int i, const int j);
 };
 
 #endif /* LANGUAGE_H */
