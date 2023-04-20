@@ -13,7 +13,7 @@
  */
 
 #include <iostream>
-#include <fstream>
+#include "Language.h"
 
 /**
  * Shows help about the use of this program in the given output stream
@@ -40,17 +40,34 @@ void showEnglishHelp(std::ostream& outputStream) {
  * > language2 <file1.bgr> [<file2.bgr> ... <filen.bgr>] <outputFile.bgr> 
  */
 int main(int argc, char* argv[]) {
-    if (argc < 2){
-        showEnglishHelp();
+    if (argc < 3){
+        std::cout << showEnglishHelp;
         exit(1);
     }
     
-    int numberOfLanguages = argc - 1;
-    int languagesRead = 0;
+    int numberOfLanguages = argc - 2;
+    int readLanguages = 1; //Languages that have been read
     
-    while (languagesRead != numberOfLanguages){
-        std::fstream fentrada;
-        
+    Language firstLanguage;
+    firstLanguage.load(argv[1]); //Loads the first language
+    std::string languageOfTheFirstFile = firstLanguage.getLanguageId();
+    readLanguages++;
+    
+    Language fusion = firstLanguage;
+    for (int i=2; readLanguages != numberOfLanguages; i++){
+        Language nextLanguage;
+        nextLanguage.load(argv[i]); //Loads every language
+        //Check if the current languageId is equal to the first one
+        if (nextLanguage.getLanguageId() != languageOfTheFirstFile){
+            readLanguages++; //Current language is ignored
+        }
+        else {
+            fusion.join(nextLanguage); //Current language is mixed in the fusion
+            readLanguages++;
+        }
     }
+    
+    //Save the languages fusion into a file
+    fusion.save(argv[argc-1]);
 }
 

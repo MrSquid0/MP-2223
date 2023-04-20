@@ -29,7 +29,7 @@ Language::Language(int numberBigrams){
                 + std::to_string(DIM_VECTOR_BIGRAM_FREQ) + " y mayor que 0.");
     }    
     
-    Language language = language();
+    Language language;
     _size = numberBigrams;
     
     for (int i=0; i<numberBigrams; i++){
@@ -49,7 +49,6 @@ const BigramFreq& Language::at(int index) const{
     if (index >= _size || index < 0){
         throw std::out_of_range("El índice no es válido");
     }
-    
     return _vectorBigramFreq[index];
 }
 
@@ -68,11 +67,10 @@ int Language::getSize() const{
 int Language::findBigram(const Bigram& bigram) const{
     int value = -1;
     for (int i=0; i<_size; i++){
-        if (bigram == _vectorBigramFreq[i].getBigram()){
+        if (bigram.getText() == _vectorBigramFreq[i].getBigram().getText()){
             value = i;
         }
     }
-    
     return value;
 }
 
@@ -83,9 +81,10 @@ std::string Language::toString() const{
     content += std::to_string(_size) + "\n";
     
     for (int i=0; i<_size; i++){
-        content += _vectorBigramFreq[i].getBigram() + " " +
+        content += _vectorBigramFreq[i].getBigram().getText() + " " +
                 std::to_string(_vectorBigramFreq[i].getFrequency()) + "\n";
     }
+    return content;
 }
 
 void Language::swapElementsArrayBigramFreq(BigramFreq array[], int nElements, 
@@ -132,15 +131,61 @@ void Language::sort(){
 }
 
 void Language::save(const char fileName[]) const{
+    std::fstream language;
+    language.open(fileName);
     
+    if (language){
+        language << this->toString();
+        if (!language){
+        throw std::ios_base::failure(string("No se pudo escribir "
+                "en el archivo ") + fileName);
+        }
+        language.close();
+    }else{
+        throw std::ios_base::failure(string("No se pudo abrir "
+                "el archivo ") + fileName);
+    }
 }
 
 void Language::load(const char fileName[]){
+    std::fstream language;
+    language.open(fileName);
+    
+    if (language){
+        std::string magicString;
+        language >> magicString;
+        if (magicString != MAGIC_STRING_T){
+            throw std::invalid_argument("La primera línea "
+                    "del documento no es válida. No es el "
+                    "formato de un fichero language.");
+        }
+        language >> this->_languageId;
+        language >> this->_size;
+        
+        for (int i=0; i<_size; i++){
+            std::string textBigram;
+            language >> textBigram;
+            Bigram bigramInput(textBigram);
+            int frequencyInput;
+            language >> frequencyInput;
+            _vectorBigramFreq[i].setBigram(bigramInput);
+            _vectorBigramFreq[i].setFrequency(frequencyInput);
+        }
+        
+        if (!language){
+        throw std::ios_base::failure(string("No se pudo escribir "
+                "en el archivo ") + fileName);
+        }
+        language.close();
+    }else{
+        throw std::ios_base::failure(string("No se pudo abrir "
+                "el archivo ") + fileName);
+    }
     
 }
 
 void Language::append(const BigramFreq& bigramFreq){
-    int value = findBigram(bigramFreq);
+    int value = findBigram(bigramFreq.getBigram());
     if (value != -1){ //If the bigram exists
         int newFrequency = _vectorBigramFreq[value].getFrequency() 
         + bigramFreq.getFrequency();
@@ -159,4 +204,5 @@ void Language::join(const Language& language){
     for (int i=0; i<language.getSize(); i++){
         this->append(language.at(i));
     }
+    this->sort();
 }
