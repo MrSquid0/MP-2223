@@ -84,6 +84,34 @@ public:
      * @return The number of BigramFreq objects 
      */
     int getSize() const;
+    
+    /**
+     * @brief Gets the distance between this Language object (\f$L_1\f$) and 
+     * the given one @p otherLanguage (\f$L_2\f$).
+     * The distance between two Languages \f$L_1\f$ and \f$L_2\f$ is 
+     * calculated in the following way:
+     * \f$d = \frac{ \sum_{bigram_i(L_1)} | rank_{bigram_i(L_1)}^{L_1} - 
+     * rank_{bigram_i(L_1)}^{L_2} | }{size(L_1) * size(L_1)}\f$, 
+     * where \f$bigram_i(L_j)\f$ is the bigram \f$i\f$ of the Language \f$L_j, 
+     * j \in \{1, 2\}\f$ and \f$rank_{bigram_i(L_j)}^{L_k}\f$ is the ranking
+     * of the bigram \f$i\f$ of the Language \f$L_j, j \in \{1, 2\}\f$ in the
+     * Language \f$L_k\f$. 
+     * The rank of a bigram is the position in which it
+     * appears in the list of BigramFreq. We consider 0 as the 
+     * first position (rank equals to 0). When calculating 
+     * \f$rank_{bigram_i(L_1)}^{L_2}\f$, if the bigram \f$bigram_i(L_1)\f$ 
+     * does not appears in the Language \f$L_2\f$ we consider that the rank
+     * is equals to the size of Language \f$L_1\f$. 
+     * Query method
+     * @param otherLanguage A Language object. Input parameter
+     * @pre The list of bigrams of this and otherLanguage should be ordered in 
+     * decreasing order of frequency. This is not checked in this method.
+     * @throw Throws a std::invalid_argument exception if the implicit object
+     * (*this) is empty, that is, it does not have any bigram.
+     * @return The distance between this Language object and the given 
+     * one @p otherLanguage.
+     */
+    const double getDistance(Language otherLanguage);    
 
     /**
      * @brief Searchs the given bigram in the list of bigrams in this

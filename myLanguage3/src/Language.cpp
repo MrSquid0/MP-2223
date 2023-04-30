@@ -64,6 +64,23 @@ int Language::getSize() const{
     return _size;
 }
 
+const double Language::getDistance(Language otherLanguage){
+    if (this->getSize() == 0){
+        throw std::invalid_argument("El language no tiene bigramas.");
+    }
+    
+    int sum = 0; //Sum of positions in absolute value
+    
+    for (int i=0; i<this->getSize(); i++){
+        //If bigram exists in otherLanguage, that is, if it's != -1
+        int posOtherLanguage = otherLanguage.findBigram((this->at(i)).getBigram());
+        if (posOtherLanguage != -1)
+            sum += abs(i-posOtherLanguage);
+    }
+    double distance = sum / 100;
+    return distance;
+}
+
 int Language::findBigram(const Bigram& bigram) const{
     int value = -1;
     for (int i=0; i<_size; i++){

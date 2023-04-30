@@ -12,6 +12,9 @@
  * Created on 7 de febrero de 2023, 14:02
  */
 
+#include "Language.h"
+#include <cstring>
+
 int posMinMaxLanguage(const Language& language, const Language array[],
                       int nElements, char operation ){
     
@@ -22,9 +25,9 @@ int posMinMaxLanguage(const Language& language, const Language array[],
  * @param outputStream The output stream where the help will be shown (for example,
  * cout, cerr, etc)
  */
-void showEnglishHelp(ostream& outputStream) {
-    outputStream << "Error, run with the following parameters:" << endl;
-    outputStream << "language3 [-t min|max] <file1.bgr> <file2.bgr> [ ... <filen.bgr>]" << endl;
+void showEnglishHelp(std::ostream& outputStream) {
+    outputStream << "Error, run with the following parameters:" << std::endl;
+    outputStream << "language3 [-t min|max] <file1.bgr> <file2.bgr> [ ... <filen.bgr>]" << std::endl;
 }
 
 /**
@@ -47,7 +50,7 @@ int main(int argc, char* argv[]) {
     int first=0;
     int nFicherosAComparar;
     if (argc < 3) {
-        showEnglishHelp(cerr);
+        showEnglishHelp(std::cerr);
         return 1;
     }
     
@@ -60,12 +63,12 @@ int main(int argc, char* argv[]) {
                 // operation CALCULAR MAX DISTANCE
                 operation = 'M';
             } else {
-                showEnglishHelp(cerr);
+                showEnglishHelp(std::cerr);
                 return 1;
             }
             //
         } else {
-            showEnglishHelp(cerr);
+            showEnglishHelp(std::cerr);
             return 1;
         }
         nFicherosAComparar = argc-4;
@@ -77,7 +80,7 @@ int main(int argc, char* argv[]) {
         first = 2;
     }
     if(nFicherosAComparar<1){
-        showEnglishHelp(cerr);
+        showEnglishHelp(std::cerr);
         return 1;
     }
     
