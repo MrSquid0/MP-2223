@@ -74,8 +74,12 @@ const double Language::getDistance(Language otherLanguage){
     for (int i=0; i<this->getSize(); i++){
         //If bigram exists in otherLanguage, that is, if it's != -1
         int posOtherLanguage = otherLanguage.findBigram((this->at(i)).getBigram());
-        if (posOtherLanguage != -1)
-            sum += abs(i-posOtherLanguage);
+        //If bigram doesn't exist, we assign to the 
+        //ranking the size of first language
+        if (posOtherLanguage == -1)
+            posOtherLanguage = this->getSize();
+
+        sum += abs(i-posOtherLanguage);
     }
     double distance = sum / 100;
     return distance;
