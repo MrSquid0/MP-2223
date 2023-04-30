@@ -1,0 +1,70 @@
+"make" -f nbproject/Makefile-Debug.mk QMAKE= SUBPROJECTS= .clean-conf
+make[1]: se entra en el directorio '/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/Language3'
+rm -f -r build/Debug
+make[1]: se sale del directorio '/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/Language3'
+"make" -f nbproject/Makefile-Debug.mk QMAKE= SUBPROJECTS= .build-conf
+make[1]: se entra en el directorio '/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/Language3'
+"make"  -f nbproject/Makefile-Debug.mk dist/Debug/GNU-Linux/language3
+make[2]: se entra en el directorio '/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/Language3'
+mkdir -p build/Debug/GNU-Linux/src
+rm -f "build/Debug/GNU-Linux/src/Language.o.d"
+g++    -c -g -Iinclude -std=c++14 -MMD -MP -MF "build/Debug/GNU-Linux/src/Language.o.d" -o build/Debug/GNU-Linux/src/Language.o src/Language.cpp
+mkdir -p build/Debug/GNU-Linux/src
+rm -f "build/Debug/GNU-Linux/src/main.o.d"
+g++    -c -g -Iinclude -std=c++14 -MMD -MP -MF "build/Debug/GNU-Linux/src/main.o.d" -o build/Debug/GNU-Linux/src/main.o src/main.cpp
+src/main.cpp:15:29: error: ‘Language’ does not name a type
+   15 | int posMinMaxLanguage(const Language& language, const Language array[],
+      |                             ^~~~~~~~
+src/main.cpp:15:55: error: ‘Language’ does not name a type
+   15 | int posMinMaxLanguage(const Language& language, const Language array[],
+      |                                                       ^~~~~~~~
+src/main.cpp: In function ‘int posMinMaxLanguage(const int&, const int*, int, char)’:
+src/main.cpp:18:1: warning: no return statement in function returning non-void [-Wreturn-type]
+   18 | }
+      | ^
+src/main.cpp: At global scope:
+src/main.cpp:25:6: error: variable or field ‘showEnglishHelp’ declared void
+   25 | void showEnglishHelp(ostream& outputStream) {
+      |      ^~~~~~~~~~~~~~~
+src/main.cpp:25:22: error: ‘ostream’ was not declared in this scope
+   25 | void showEnglishHelp(ostream& outputStream) {
+      |                      ^~~~~~~
+src/main.cpp:25:31: error: ‘outputStream’ was not declared in this scope
+   25 | void showEnglishHelp(ostream& outputStream) {
+      |                               ^~~~~~~~~~~~
+src/main.cpp: In function ‘int main(int, char**)’:
+src/main.cpp:50:25: error: ‘cerr’ was not declared in this scope
+   50 |         showEnglishHelp(cerr);
+      |                         ^~~~
+src/main.cpp:50:9: error: ‘showEnglishHelp’ was not declared in this scope
+   50 |         showEnglishHelp(cerr);
+      |         ^~~~~~~~~~~~~~~
+src/main.cpp:55:13: error: ‘strcmp’ was not declared in this scope
+   55 |         if (strcmp(argv[1], "-t") == 0) {
+      |             ^~~~~~
+src/main.cpp:1:1: note: ‘strcmp’ is defined in header ‘<cstring>’; did you forget to ‘#include <cstring>’?
+  +++ |+#include <cstring>
+    1 | /*
+src/main.cpp:63:33: error: ‘cerr’ was not declared in this scope
+   63 |                 showEnglishHelp(cerr);
+      |                                 ^~~~
+src/main.cpp:63:17: error: ‘showEnglishHelp’ was not declared in this scope
+   63 |                 showEnglishHelp(cerr);
+      |                 ^~~~~~~~~~~~~~~
+src/main.cpp:68:29: error: ‘cerr’ was not declared in this scope
+   68 |             showEnglishHelp(cerr);
+      |                             ^~~~
+src/main.cpp:68:13: error: ‘showEnglishHelp’ was not declared in this scope
+   68 |             showEnglishHelp(cerr);
+      |             ^~~~~~~~~~~~~~~
+src/main.cpp:80:25: error: ‘cerr’ was not declared in this scope
+   80 |         showEnglishHelp(cerr);
+      |                         ^~~~
+src/main.cpp:80:9: error: ‘showEnglishHelp’ was not declared in this scope
+   80 |         showEnglishHelp(cerr);
+      |         ^~~~~~~~~~~~~~~
+make[2]: *** [nbproject/Makefile-Debug.mk:74: build/Debug/GNU-Linux/src/main.o] Error 1
+make[2]: se sale del directorio '/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/Language3'
+make[1]: *** [nbproject/Makefile-Debug.mk:60: .build-conf] Error 2
+make[1]: se sale del directorio '/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/Language3'
+make: *** [nbproject/Makefile-impl.mk:40: .build-impl] Error 2

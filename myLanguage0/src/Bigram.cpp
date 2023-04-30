@@ -38,7 +38,7 @@ const char& Bigram::at(int index) const{
 
 char& Bigram::at(int index){
     if (index !=0 && index !=1){
-        throw std::out_of_range("El índice " + std::to_string(index) + "está fuera de rango");
+        throw std::out_of_range("El índice " + std::to_string(index) + " está fuera de rango");
     }
     return _text.at(index);
 }

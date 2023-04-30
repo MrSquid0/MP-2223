@@ -41,23 +41,24 @@ void showEnglishHelp(std::ostream& outputStream) {
  */
 int main(int argc, char* argv[]) {
     if (argc < 3){
-        std::cout << showEnglishHelp;
+        showEnglishHelp(std::cout);
         exit(1);
     }
     
     int numberOfLanguages = argc - 2;
-    int readLanguages = 1; //Languages that have been read
+    int readLanguages = 1; //Languages that have been read, one (the first)
+                           //by default
     
     Language firstLanguage;
-    firstLanguage.load(argv[1]); //Loads the first language
+    firstLanguage.load(argv[readLanguages]); //Loads the first language
     std::string languageOfTheFirstFile = firstLanguage.getLanguageId();
     readLanguages++;
     
     Language fusion = firstLanguage;
-    for (int i=2; readLanguages != numberOfLanguages; i++){
+    for (int i=readLanguages; readLanguages <= numberOfLanguages; i++){
         Language nextLanguage;
         nextLanguage.load(argv[i]); //Loads every language
-        //Check if the current languageId is equal to the first one
+        //Checks if the current languageId is not equal to the first one
         if (nextLanguage.getLanguageId() != languageOfTheFirstFile){
             readLanguages++; //Current language is ignored
         }
