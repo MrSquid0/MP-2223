@@ -69,7 +69,7 @@ const double Language::getDistance(const Language otherLanguage) const{
         throw std::invalid_argument("El primer language no tiene bigramas.");
     }
     
-    int sum = 0; //Sum of positions in absolute value
+    double sum = 0; //Sum of positions in absolute value
     
     for (int i=0; i<this->getSize(); i++){
         //If bigram exists in otherLanguage, that is, if it's != -1
@@ -81,7 +81,7 @@ const double Language::getDistance(const Language otherLanguage) const{
 
         sum += abs(i-posOtherLanguage);
     }
-    double distance = sum / 100;
+    double distance = sum / (this->getSize() * this->getSize());
     return distance;
 }
 

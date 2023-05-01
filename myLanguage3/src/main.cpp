@@ -42,7 +42,7 @@ int posMinMaxLanguage(const Language& language, const Language array[],
     }
     
     int returnValue;
-    if (operation = 'm'){ //If minimum distance
+    if (operation == 'm'){ //If minimum distance
         returnValue = min;
     } else{ //If maximum distance
         returnValue = max;
@@ -151,8 +151,6 @@ int main(int argc, char* argv[]) {
                 << array[languageMinMax].getLanguageId() << std::endl;
     }
     
-    //Liberar la memoria reservada
-    for (int i=0; i<nFicherosAComparar; i++){
-        delete [] array;
-    }
+    //Liberamos la memoria reservada
+    delete [] array;
 }
