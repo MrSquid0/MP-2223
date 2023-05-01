@@ -15,9 +15,39 @@
 #include "Language.h"
 #include <cstring>
 
+/**
+ * It returns the index of the array that the distance is the nearest
+ * or the farthest to the first language.
+ * @param language The first language given
+ * @param array[] The array of languages given (not the first one included)
+ * @param nElements The number of elements of the array
+ * @param operation The operation to be done (minimum or maximum distance)
+ */
 int posMinMaxLanguage(const Language& language, const Language array[],
                       int nElements, char operation ){
+    int min = 0, max = 0;
+    double currentMinDistance = language.getDistance(array[0]);
+    double currentMaxDistance = language.getDistance(array[0]);
+    for (int i=1; i<nElements; i++){
+        double currentDistance = language.getDistance(array[i]);
+        if (currentDistance < currentMinDistance){
+            min = i;
+            currentMinDistance = currentDistance;
+        }
+        
+        if (currentDistance > currentMaxDistance){
+            max = i;
+            currentMaxDistance = currentDistance;
+        }
+    }
     
+    int returnValue;
+    if (operation = 'm'){ //If minimum distance
+        returnValue = min;
+    } else{ //If maximum distance
+        returnValue = max;
+    }
+    return returnValue;
 }
 
 /**
@@ -85,14 +115,44 @@ int main(int argc, char* argv[]) {
     }
     
     // Crear el array dinámico de Language con  nFicherosAComparar elementos
+    // Reservamos memoria
+    Language *array = new Language[nFicherosAComparar];
+    
     // Leer el primer fichero
+    Language firstLanguage;
+    firstLanguage.load(argv[first-1]); //Loads the first language
+    
     // Bucle para leer los nFicherosAComparar
     // Cargar con load() cada en uno en una posición del array dinámico
+    for (int i=0; i<nFicherosAComparar; i++){
+        Language nextLanguage;
+        nextLanguage.load(argv[i+first]);
+        array[i] = nextLanguage;
+    }
     
     // Calcular la posición donde está el más cercano/lejano del primero fichero a
     // los del array
+    int languageMinMax = posMinMaxLanguage(firstLanguage, array, 
+            nFicherosAComparar, operation);
     
     // Mostrar la información adecuada
+    for (int i=0; i<nFicherosAComparar; i++){
+        std::cout << "Distance to " << argv[i+first] << ": " 
+                << firstLanguage.getDistance(array[i]) << std::endl;
+    }
     
+    if (operation == 'm'){ //Operation by default
+        std::cout << "Nearest language file: " << argv[languageMinMax+first] << 
+                ". Identifier of the nearest language: " 
+                << array[languageMinMax].getLanguageId() << std::endl;
+    }else{
+        std::cout << "Farthest language file: " << argv[languageMinMax+first] 
+                << ". Identifier of the farthest language: " 
+                << array[languageMinMax].getLanguageId() << std::endl;
+    }
     
+    //Liberar la memoria reservada
+    for (int i=0; i<nFicherosAComparar; i++){
+        delete [] array;
+    }
 }

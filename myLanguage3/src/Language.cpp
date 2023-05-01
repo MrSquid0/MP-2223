@@ -64,9 +64,9 @@ int Language::getSize() const{
     return _size;
 }
 
-const double Language::getDistance(Language otherLanguage){
+const double Language::getDistance(const Language otherLanguage) const{
     if (this->getSize() == 0){
-        throw std::invalid_argument("El language no tiene bigramas.");
+        throw std::invalid_argument("El primer language no tiene bigramas.");
     }
     
     int sum = 0; //Sum of positions in absolute value

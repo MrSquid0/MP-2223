@@ -111,7 +111,7 @@ public:
      * @return The distance between this Language object and the given 
      * one @p otherLanguage.
      */
-    const double getDistance(Language otherLanguage);    
+    const double getDistance(const Language otherLanguage) const;    
 
     /**
      * @brief Searchs the given bigram in the list of bigrams in this
