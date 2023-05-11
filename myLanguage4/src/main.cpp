@@ -27,7 +27,7 @@ int posMinMaxLanguage(const Language& language, const Language array[],
                       int nElements, char operation ){
     int min = 0, max = 0;
     double currentMinDistance = language.getDistance(array[0]);
-    double currentMaxDistance = language.getDistance(array[0]);
+    double currentMaxDistance = currentMinDistance;
     for (int i=1; i<nElements; i++){
         double currentDistance = language.getDistance(array[i]);
         if (currentDistance < currentMinDistance){
@@ -57,7 +57,7 @@ int posMinMaxLanguage(const Language& language, const Language array[],
  */
 void showEnglishHelp(std::ostream& outputStream) {
     outputStream << "Error, run with the following parameters:" << std::endl;
-    outputStream << "language3 [-t min|max] <file1.bgr> <file2.bgr> [ ... <filen.bgr>]" << std::endl;
+    outputStream << "language4 [-t min|max] <file1.bgr> <file2.bgr> [ ... <filen.bgr>]" << std::endl;
 }
 
 /**
@@ -124,13 +124,11 @@ int main(int argc, char* argv[]) {
     
     // Bucle para leer los nFicherosAComparar
     // Cargar con load() cada en uno en una posición del array dinámico
-    for (int i=0; i<nFicherosAComparar; i++){
-        Language nextLanguage;
-        nextLanguage.load(argv[i+first]);
-        array[i] = nextLanguage;
-    }
+    for (int i=0; i<nFicherosAComparar; i++)
+        array[i].load(argv[i+first]);
     
-    // Calcular la posición donde está el más cercano/lejano del primero fichero a
+    
+    // Calcular la posición donde está el más cercano/lejano del primer fichero a
     // los del array
     int languageMinMax = posMinMaxLanguage(firstLanguage, array, 
             nFicherosAComparar, operation);
@@ -143,14 +141,15 @@ int main(int argc, char* argv[]) {
     
     if (operation == 'm'){ //Operation by default
         std::cout << "Nearest language file: " << argv[languageMinMax+first] << 
-                ". Identifier of the nearest language: " 
+                std::endl << "Identifier of the nearest language: " 
                 << array[languageMinMax].getLanguageId() << std::endl;
     }else{
-        std::cout << "Farthest language file: " << argv[languageMinMax+first] 
-                << ". Identifier of the farthest language: " 
+        std::cout << "Farthest language file: " << argv[languageMinMax+first] <<
+                std::endl << "Identifier of the farthest language: " 
                 << array[languageMinMax].getLanguageId() << std::endl;
     }
     
     //Liberamos la memoria reservada
     delete [] array;
+    array = 0;
 }

@@ -21,19 +21,53 @@ const string Language::MAGIC_STRING_T="MP-LANGUAGE-T-1.0";
 Language::Language(){
     _languageId = "unknown";
     _size = 0;
+    _vectorBigramFreq = 0;
 }
 
-Language::Language(int numberBigrams){
-    if (numberBigrams > DIM_VECTOR_BIGRAM_FREQ || numberBigrams < 0){
-        throw std::out_of_range("El número de bigramas debe ser menor que "
-                + std::to_string(DIM_VECTOR_BIGRAM_FREQ) + " y mayor que 0.");
-    }    
-    
-    Language language;
-    _size = numberBigrams;
-    
-    for (int i=0; i<numberBigrams; i++){
-        _vectorBigramFreq[i] = BigramFreq();
+Language::Language(int numberOfBigrams){
+    if (numberOfBigrams < 0){
+        throw std::out_of_range("El número de bigramas debe ser mayor que 0.");
+    }
+    _size = numberOfBigrams;
+    _vectorBigramFreq = new BigramFreq[_size];
+}
+
+
+Language::Language(const Language& orig){
+    allocate(orig.getSize());
+    copy(orig);
+}
+
+Language::~Language(){
+    deallocate();
+}
+
+Language& Language::operator=(const Language& orig){
+    if (this != &orig){
+        deallocate();
+        allocate(orig.getSize());
+        copy(orig);
+    }
+    return *this;
+}
+
+void Language::allocate(int numberOfBigrams) {
+    _size = numberOfBigrams;
+    _vectorBigramFreq = new BigramFreq[_size];
+}
+
+void Language::deallocate() {
+    if (_vectorBigramFreq != 0){
+        delete [] _vectorBigramFreq;
+        _vectorBigramFreq = 0;
+        _size = 0;
+    }
+}
+
+void Language::copy(const Language &language) {
+    _languageId = language.getLanguageId();
+    for (int i=0; i<_size; i++){
+        this->_vectorBigramFreq[i] = language.at(i);
     }
 }
 
@@ -183,7 +217,9 @@ void Language::load(const char fileName[]){
         }
         language >> this->_languageId;
         language >> this->_size;
-        
+        deallocate();
+        allocate(_size);
+
         for (int i=0; i<_size; i++){
             std::string textBigram;
             language >> textBigram;
@@ -214,9 +250,6 @@ void Language::append(const BigramFreq& bigramFreq){
         
         _vectorBigramFreq[value].setFrequency(newFrequency);
     } else { //If the bigram doesn't exist
-        if (_size == DIM_VECTOR_BIGRAM_FREQ){ //If array is full
-            throw std::out_of_range("El array está lleno.");
-        }
         _vectorBigramFreq[_size] = bigramFreq;
         _size++;
     }

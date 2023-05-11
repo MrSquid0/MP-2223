@@ -17,6 +17,7 @@
 
 
 #include <iostream>
+#include <fstream>
 #include "BigramFreq.h"
 
 /**
@@ -127,7 +128,7 @@ public:
      * @return The distance between this Language object and the given 
      * one @p otherLanguage.
      */
-    double getDistance(const Language& otherLanguage) const;
+    const double getDistance(const Language otherLanguage) const;
 
     /**
      * @brief Searchs the given bigram in the list of bigrams in this
@@ -210,6 +211,16 @@ private:
     BigramFreq* _vectorBigramFreq; ///< Dynamic array of BigramFreq
     int _size; ///< Number of elements in _vectorBigramFreq
     static const std::string MAGIC_STRING_T; ///< A const string with the magic string for text files
+    
+    //Private functions that are used in sort()
+    void swapElementsArrayBigramFreq(BigramFreq array[], int nElements, 
+        int first, int second);
+    char sortDraw(const BigramFreq bigram[], const int i, const int j);
+
+    //Private functions to manage the dynamic memory
+    void allocate(int numberOfBigrams);
+    void deallocate();
+    void copy(const Language &language);
 };
 
 #endif /* LANGUAGE_H */
