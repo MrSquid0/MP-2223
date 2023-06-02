@@ -134,9 +134,13 @@ public:
      * @return A Language object from this BigramCounter object
      */
     Language toLanguage();
+    
+    int getNumberOfColsAndRows();
 
 private:
     int** _frequency; ///< 2D matrix with the frequency of each bigram
+    
+    int numberOfColsAndRows; //Number of columns and rows of a 2D matrix
 
     /**
      * Set of characters that are considered as part of a word. Any other 

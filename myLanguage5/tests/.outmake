@@ -1,0 +1,41 @@
+"make" -f nbproject/Makefile-Debug.mk QMAKE= SUBPROJECTS= .clean-conf
+make[1]: se entra en el directorio '/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5'
+rm -f -r build/Debug
+make[1]: se sale del directorio '/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5'
+"make" -f nbproject/Makefile-Debug.mk QMAKE= SUBPROJECTS= .build-conf
+make[1]: se entra en el directorio '/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5'
+"make"  -f nbproject/Makefile-Debug.mk dist/Debug/GNU-MacOSX/language5
+make[2]: se entra en el directorio '/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5'
+mkdir -p build/Debug/GNU-MacOSX/src
+rm -f "build/Debug/GNU-MacOSX/src/BigramCounter.o.d"
+g++    -c -g -Iinclude -std=c++14 -MMD -MP -MF "build/Debug/GNU-MacOSX/src/BigramCounter.o.d" -o build/Debug/GNU-MacOSX/src/BigramCounter.o src/BigramCounter.cpp
+In file included from include/BigramCounter.h:18,
+                 from src/BigramCounter.cpp:15:
+include/Language.h:211:16: error: ‘BigramFreq Language::operator[](int)’ cannot be overloaded with ‘BigramFreq Language::operator[](int)’
+  211 |     BigramFreq operator[](int index);
+      |                ^~~~~~~~
+include/Language.h:204:16: note: previous declaration ‘BigramFreq Language::operator[](int)’
+  204 |     BigramFreq operator[](int index);
+      |                ^~~~~~~~
+In file included from src/BigramCounter.cpp:15:
+include/BigramCounter.h:53:5: error: invalid constructor; you probably meant ‘BigramCounter (const BigramCounter&)’
+   53 |     BigramCounter(BigramCounter orig);
+      |     ^~~~~~~~~~~~~
+include/BigramCounter.h:166:9: error: ‘int BigramCounter::operator()(int, int)’ cannot be overloaded with ‘int BigramCounter::operator()(int, int)’
+  166 |     int operator()(int row, int column);
+      |         ^~~~~~~~
+include/BigramCounter.h:156:9: note: previous declaration ‘int BigramCounter::operator()(int, int)’
+  156 |     int operator()(int row, int column);
+      |         ^~~~~~~~
+src/BigramCounter.cpp:27:1: error: default argument given for parameter 1 of ‘BigramCounter::BigramCounter(std::string)’
+   27 | BigramCounter::BigramCounter(std::string validChars = DEFAULT_VALID_CHARACTERS){
+      | ^~~~~~~~~~~~~
+In file included from src/BigramCounter.cpp:15:
+include/BigramCounter.h:46:5: note: previous specification in ‘BigramCounter::BigramCounter(std::string)’ here
+   46 |     BigramCounter(std::string validChars = DEFAULT_VALID_CHARACTERS);
+      |     ^~~~~~~~~~~~~
+make[2]: *** [nbproject/Makefile-Debug.mk:70: build/Debug/GNU-MacOSX/src/BigramCounter.o] Error 1
+make[2]: se sale del directorio '/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5'
+make[1]: *** [nbproject/Makefile-Debug.mk:61: .build-conf] Error 2
+make[1]: se sale del directorio '/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5'
+make: *** [nbproject/Makefile-impl.mk:40: .build-impl] Error 2

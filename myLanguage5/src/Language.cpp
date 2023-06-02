@@ -171,9 +171,8 @@ char Language::sortDraw(const BigramFreq bigram[], const int i, const int j){
 void Language::sort(){
     for (int i=0; i<_size; i++){
         for (int j=i+1; j<_size; j++){
-            if (_vectorBigramFreq[i].getFrequency() <= _vectorBigramFreq[j].getFrequency()){
-                //E
-                if (_vectorBigramFreq[i].getFrequency() == _vectorBigramFreq[j].getFrequency()){
+            if ((*this)[i].getFrequency() <= (*this)[j].getFrequency()){
+                if ((*this)[i].getFrequency() == (*this)[j].getFrequency()){
                     char swap = sortDraw(_vectorBigramFreq, i, j);
                     if (swap == 'i'){
                         swapElementsArrayBigramFreq(_vectorBigramFreq, _size, i, j);
@@ -192,7 +191,7 @@ void Language::save(const char fileName[]) const{
     std::ofstream language(fileName);
     
     if (language){
-        language << this->toString();
+        std::cout << *this;
         if (!language){
         throw std::ios_base::failure(string("No se pudo escribir "
                 "en el archivo ") + fileName);
@@ -216,20 +215,8 @@ void Language::load(const char fileName[]){
                     "del documento no es válida. No es el "
                     "formato de un fichero language.");
         }
-        language >> this->_languageId;
-        language >> this->_size;
         deallocate();
-        allocate(_size);
-
-        for (int i=0; i<_size; i++){
-            std::string textBigram;
-            language >> textBigram;
-            Bigram bigramInput(textBigram);
-            int frequencyInput;
-            language >> frequencyInput;
-            _vectorBigramFreq[i].setBigram(bigramInput);
-            _vectorBigramFreq[i].setFrequency(frequencyInput);
-        }
+        std::cin >> *this;
         
         if (!language){
         throw std::ios_base::failure(string("No se pudo escribir "
@@ -251,14 +238,58 @@ void Language::append(const BigramFreq& bigramFreq){
         
         _vectorBigramFreq[value].setFrequency(newFrequency);
     } else { //If the bigram doesn't exist
-        _vectorBigramFreq[_size] = bigramFreq;
-        _size++;
+        Language currentLanguage = new Language(*this);
+        deallocate();
+        allocate(currentLanguage.getSize()+1);
+        for (int i=0; i<currentLanguage.getSize()-1; i++){
+            (*this)[i] = currentLanguage[i];
+        }
+        (*this)[_size-1] = bigramFreq;
+        delete currentLanguage;
+        currentLanguage = 0;
     }
 }
 
-void Language::join(const Language& language){
-    for (int i=0; i<language.getSize(); i++){
-        this->append(language.at(i));
+Language Language::operator+=(Language language){
+    if (this != &language){
+        for (int i=0; i<language.getSize(); i++)
+            this->append(language.at(i));
+        
+        this->sort();
     }
-    this->sort();
+    return *this;
+}
+
+const BigramFreq& Language::operator[](int index) const{
+    return this->at(index);
+}
+
+BigramFreq& Language::operator[](int index){
+    return this->at(index);
+}
+
+std::ostream& operator<<(std::ostream &os, const Language &language){
+    os << language.toString();
+    return os;
+}
+
+std::istream& operator>>(std::istream &is, Language &language){
+    int numberOfBigramFreq;
+    std::string languageId;
+    is >> languageId >> numberOfBigramFreq;
+    
+    language = Language(numberOfBigramFreq);
+    language.setLanguageId(languageId);
+    
+    for (int i=0; i<numberOfBigramFreq; i++){
+        std::string textBigram;
+        is >> textBigram;
+        Bigram bigramInput(textBigram);
+        int frequencyInput;
+        is >> frequencyInput;
+        language.at(i).setBigram(bigramInput);
+        language.at(i).setFrequency(frequencyInput);
+    }    
+    
+    return is;
 }

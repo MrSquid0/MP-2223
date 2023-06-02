@@ -91,7 +91,14 @@ public:
      */
     void toUpper();
     
-  
+    /**
+    * @brief Overloading of the indexing operator for Bigram class
+    * @param i The index to look for in the bigram
+    * @return @p the indexed character or error
+    */
+    char& operator[](int i);
+    
+    Bigram& operator=(const Bigram& other);
  
 private:   
 
@@ -119,7 +126,7 @@ bool isValidCharacter(char character, const std::string& validCharacters);
  * @param bigram the Bigram object. Input parameter
  * @return @p os A reference to the output stream
  */
-std::ostream operator<<(std::ostream os, Bigram bigram);
+std::ostream& operator<<(std::ostream &os, const Bigram &bigram);
 
 /**
  * @brief Overloading of the stream extraction operator for Bigram class
@@ -129,7 +136,7 @@ std::ostream operator<<(std::ostream os, Bigram bigram);
  * @param bigram the Bigram object. Output parameter
  * @return @p A reference to the input stream
  */
-std::istream operator>>(std::istream is, Bigram bigram);
+std::istream& operator>>(std::istream &is, Bigram &bigram);
 
 #endif /* BIGRAM_H */
 

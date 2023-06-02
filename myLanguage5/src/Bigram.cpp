@@ -82,3 +82,29 @@ void Bigram::toUpper(){
     this->at(0) = toupper(this->at(0));
     this->at(1) = toupper(this->at(1));
 }
+
+char& Bigram::operator[](int i){
+    return at(i);
+}
+
+Bigram& Bigram::operator=(const Bigram& other) {
+    if (this != &other) {
+        for (int i=0; i<2; i++)
+            _text[i] = other._text[i];
+        _text[2] = '\0';
+    }
+    return *this;
+}
+
+std::ostream& operator<<(std::ostream &os, const Bigram &bigram){
+    os << bigram.getText();
+    return os;
+}
+
+std::istream& operator>>(std::istream &is, Bigram &bigram){
+    std::string text;
+    is >> text;
+    
+    bigram = Bigram(text);
+    return is;
+}

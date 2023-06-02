@@ -17,6 +17,7 @@
 
 
 #include <iostream>
+#include <fstream>
 #include "BigramFreq.h"
 
 /**
@@ -127,7 +128,7 @@ public:
      * @return The distance between this Language object and the given 
      * one @p otherLanguage.
      */
-    double getDistance(const Language& otherLanguage) const;
+    const double getDistance(const Language otherLanguage) const;
 
     /**
      * @brief Searchs the given bigram in the list of bigrams in this
@@ -195,20 +196,20 @@ public:
      * @param bigramFreq The BigramFreq to append to this object
      */
     void append(const BigramFreq& bigramFreq);
-    
+
     /**
      * @brief Overloading of the [] operator for Language class
      * @param index index of the element. Input parameter
      * @return A reference to the BigramFreq object at position @p index
      */
-    BigramFreq operator[](int index);
+    const BigramFreq& operator[](int index) const;
 
     /**
      * @brief Overloading of the [] operator for Language class
      * @param index index of the element. Input parameter 
      * @return A reference to the BigramFreq object at position @p index
      */
-    BigramFreq operator[](int index);
+    BigramFreq& operator[](int index);
     
     /**
      * @brief Overloading of the += operator with a Language parameter. 
@@ -227,24 +228,35 @@ private:
     int _size; ///< Number of elements in _vectorBigramFreq
     static const std::string MAGIC_STRING_T; ///< A const string with the magic string for text files
     static const std::string MAGIC_STRING_B; ///< A const string with the magic string for binary files
+    
+    //Private functions that are used in sort()
+    void swapElementsArrayBigramFreq(BigramFreq array[], int nElements, 
+        int first, int second);
+    char sortDraw(const BigramFreq bigram[], const int i, const int j);
+
+    //Private functions to manage the dynamic memory
+    void allocate(int numberOfBigrams);
+    void deallocate();
+    void copy(const Language &language);
 };
 
-/**
- * @brief Overloading of the stream insertion operator for Language class
- * @param os The output stream to be used
- * @param language the Language object. Input parameter
- * @return @p os A reference to the output stream
- */
-std::ostream operator<<(std::ostream os, Language language);
+    
+    /**
+    * @brief Overloading of the stream insertion operator for Language class
+    * @param os The output stream to be used
+    * @param language the Language object. Input parameter
+    * @return @p os A reference to the output stream
+    */
+    std::ostream& operator<<(std::ostream &os, const Language &language);
 
-/**
- * @brief Overloading of the stream extraction operator for Language class
- * throw std::out_of_range Throws a std::out_of_range if the number of bigrams
- * read from the file is negative.
- * @param is The input stream to be used
- * @param language the Language object. Output parameter
- * @return @p is A reference to the input stream
- */
-std::istream operator>>(std::istream is, Language language);
+    /**
+    * @brief Overloading of the stream extraction operator for Language class
+    * throw std::out_of_range Throws a std::out_of_range if the number of bigrams
+    * read from the file is negative.
+    * @param is The input stream to be used
+    * @param language the Language object. Output parameter
+    * @return @p is A reference to the input stream
+    */
+    std::istream& operator>>(std::istream &is, Language &language);
 
 #endif /* LANGUAGE_H */

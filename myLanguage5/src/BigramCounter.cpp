@@ -23,3 +23,79 @@
  * constructor is used with a different c-string
  */
 const char* const BigramCounter::DEFAULT_VALID_CHARACTERS="abcdefghijklmnopqrstuvwxyz\xE0\xE1\xE2\xE3\xE4\xE5\xE6\xE7\xE8\xE9\xEA\xEB\xEC\xED\xEE\xEF\xF0\xF1\xF2\xF3\xF4\xF5\xF6\xF8\xF9\xFA\xFB\xFC\xFD\xFE\xFF";
+
+BigramCounter::BigramCounter(std::string validChars){
+    numberOfColsAndRows = validChars.length();
+    _frequency = new int*[numberOfColsAndRows]; //Allocating rows
+    for (int i = 0; i < numberOfColsAndRows; ++i) {
+        _frequency[i] = new int[numberOfColsAndRows]; //Allocating columns
+    }
+}
+
+BigramCounter::BigramCounter(BigramCounter orig){
+    // Reservar memoria dinámica para la nueva matriz    
+    numberOfColsAndRows = orig.numberOfColsAndRows;
+    _frequency = new int*[numberOfColsAndRows];
+    for (int i = 0; i < numberOfColsAndRows; ++i) {
+        _frequency[i] = new int[numberOfColsAndRows];
+    }
+
+    // Copiar elementos de la matriz existente a la nueva matriz
+    for (int i = 0; i < numberOfColsAndRows; ++i) {
+        for (int j = 0; j < numberOfColsAndRows; ++j) {
+            _frequency[i][j] = orig._frequency[i][j];
+        }
+    }
+}
+
+BigramCounter::~BigramCounter(){
+    for (int i = 0; i < numberOfColsAndRows; ++i) {
+        delete[] _frequency[i];
+    }
+    delete[] _frequency;
+    numberOfColsAndRows = 0;
+}
+
+int BigramCounter::getSize(){
+    return _validCharacters;
+}
+
+int BigramCounter::getNumberActiveBigrams(){
+    
+}
+
+bool BigramCounter::setFrequency(Bigram bigram, int frequency){
+    bool found = false;
+}
+
+void BigramCounter::increaseFrequency(Bigram bigram, int frequency = 0){
+    
+}
+
+BigramCounter BigramCounter::operator=(BigramCounter orig){
+    
+}
+
+BigramCounter BigramCounter::operator+=(BigramCounter rhs){
+    
+}
+
+void BigramCounter::calculateFrequencies(char* fileName){
+    
+}
+
+Language BigramCounter::toLanguage(){
+    
+}
+
+int BigramCounter::getNumberOfColsAndRows(){
+    return numberOfColsAndRows;
+}
+
+int BigramCounter:: operator()(int row, int column){
+    
+}
+
+int BigramCounter::operator()(int row, int column){
+    
+}
