@@ -25,51 +25,99 @@
 const char* const BigramCounter::DEFAULT_VALID_CHARACTERS="abcdefghijklmnopqrstuvwxyz\xE0\xE1\xE2\xE3\xE4\xE5\xE6\xE7\xE8\xE9\xEA\xEB\xEC\xED\xEE\xEF\xF0\xF1\xF2\xF3\xF4\xF5\xF6\xF8\xF9\xFA\xFB\xFC\xFD\xFE\xFF";
 
 BigramCounter::BigramCounter(std::string validChars){
-    numberOfColsAndRows = validChars.length();
-    _frequency = new int*[numberOfColsAndRows]; //Allocating rows
-    for (int i = 0; i < numberOfColsAndRows; ++i) {
-        _frequency[i] = new int[numberOfColsAndRows]; //Allocating columns
+    _validCharacters = validChars;
+    _frequency = new int*[_validCharacters.length()]; //Allocating rows
+    for (int i = 0; i < _validCharacters.length(); ++i) {
+        _frequency[i] = new int[_validCharacters.length()]; //Allocating columns
+    }
+    
+    //Initiliaze to 0 each element of the matrix
+    for (int i=0; i<_validCharacters.length(); i++){
+        for (int j=0; j<_validCharacters.length(); j++){
+            _frequency[i][j] = 0;
+        }
     }
 }
 
-BigramCounter::BigramCounter(BigramCounter orig){
-    // Reservar memoria dinámica para la nueva matriz    
-    numberOfColsAndRows = orig.numberOfColsAndRows;
-    _frequency = new int*[numberOfColsAndRows];
-    for (int i = 0; i < numberOfColsAndRows; ++i) {
-        _frequency[i] = new int[numberOfColsAndRows];
-    }
+BigramCounter::BigramCounter(const BigramCounter &orig){
+    allocate(orig._validCharacters.length());
+    copy(orig);
+}
 
-    // Copiar elementos de la matriz existente a la nueva matriz
-    for (int i = 0; i < numberOfColsAndRows; ++i) {
-        for (int j = 0; j < numberOfColsAndRows; ++j) {
-            _frequency[i][j] = orig._frequency[i][j];
+void BigramCounter::allocate(int rowsAndColumns) {
+    // Allocate memory for rows
+    _frequency = new int*[rowsAndColumns];
+
+    // Allocate memory for columns of each row
+    for (int i = 0; i < rowsAndColumns; ++i) {
+        _frequency[i] = new int[rowsAndColumns];
+    }
+}
+
+void BigramCounter::deallocate() {
+    if (_frequency != 0){
+        for (int i = 0; i < _validCharacters.length(); ++i)
+            delete[] _frequency[i];
+        delete[] _frequency;
+        _frequency = 0;
+    }
+}
+
+void BigramCounter::copy(const BigramCounter &bigramCounter){
+    _validCharacters = bigramCounter._validCharacters;
+    
+    for (int i = 0; i < _validCharacters.length(); ++i) {
+        for (int j = 0; j < _validCharacters.length(); ++j) {
+            _frequency[i][j] = bigramCounter._frequency[i][j];
         }
     }
 }
 
 BigramCounter::~BigramCounter(){
-    for (int i = 0; i < numberOfColsAndRows; ++i) {
-        delete[] _frequency[i];
-    }
-    delete[] _frequency;
-    numberOfColsAndRows = 0;
+    deallocate();
 }
 
-int BigramCounter::getSize(){
-    return _validCharacters;
+const int BigramCounter::getSize(){
+    return _validCharacters.length();
 }
 
 int BigramCounter::getNumberActiveBigrams(){
+    int activeBigrams = 0;
     
+    for (int i=0; i<_validCharacters.length(); i++){
+        for (int j=0; j<_validCharacters.length(); j++){
+            if (_frequency[i][j] > 0)
+                activeBigrams++;
+        }
+    }
+    
+    return activeBigrams;
 }
 
 bool BigramCounter::setFrequency(Bigram bigram, int frequency){
     bool found = false;
+    
+    std::size_t firstPosition = _validCharacters.find(bigram[0]);
+    std::size_t secondPosition = _validCharacters.find(bigram[1]);
+    
+    if ((firstPosition && secondPosition) != std::string::npos){
+        found = true;
+        for (int i=0; i<_validCharacters.length(); i++){
+            for (int j=0; j<_validCharacters.length(); j++){
+                _frequency[firstPosition][secondPosition] = frequency;
+            }
+        }
+    }
+    return found;
 }
 
-void BigramCounter::increaseFrequency(Bigram bigram, int frequency = 0){
+void BigramCounter::increaseFrequency(Bigram bigram, int frequency){
+    if (frequency == 0)
+        frequency = 1;
     
+    if (!this->setFrequency(bigram, frequency)){
+        throw std::invalid_argument("El bigrama proporcionado no es válido.");
+    }
 }
 
 BigramCounter BigramCounter::operator=(BigramCounter orig){
@@ -88,11 +136,7 @@ Language BigramCounter::toLanguage(){
     
 }
 
-int BigramCounter::getNumberOfColsAndRows(){
-    return numberOfColsAndRows;
-}
-
-int BigramCounter:: operator()(int row, int column){
+const int BigramCounter::operator()(int row, int column) const{
     
 }
 

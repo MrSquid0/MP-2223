@@ -50,7 +50,7 @@ public:
      * @param orig the BigramCounter object used as source for the copy. Input
      * parameter
      */
-    BigramCounter(BigramCounter orig);
+    BigramCounter(const BigramCounter &orig);
 
     /**
      * @brief Destructor
@@ -63,7 +63,7 @@ public:
      * @return the number (size) of valid characters that are considered as part 
      * of a word in this BigramCounter object 
      */
-    int getSize();
+    const int getSize();
 
     /**
      * @brief Gets the number of bigrams with a frequency greater than 0.
@@ -134,13 +134,9 @@ public:
      * @return A Language object from this BigramCounter object
      */
     Language toLanguage();
-    
-    int getNumberOfColsAndRows();
 
 private:
     int** _frequency; ///< 2D matrix with the frequency of each bigram
-    
-    int numberOfColsAndRows; //Number of columns and rows of a 2D matrix
 
     /**
      * Set of characters that are considered as part of a word. Any other 
@@ -157,7 +153,7 @@ private:
      * @param column Column of the element. Input parameter
      * @return A const reference to the element at the given position
      */
-    int operator()(int row, int column);
+    const int operator()(int row, int column) const;
 
     /**
      * @brief Overloading of the () operator to access to the element at a 
@@ -168,6 +164,11 @@ private:
      * @return A reference to the element at the given position
      */
     int operator()(int row, int column);
+    
+    
+    void allocate(int rowsAndColumns);
+    void deallocate();
+    void copy(const BigramCounter &bigramCounter);
 };
 
 #endif /* BIGRAM_COUNTER_H */
