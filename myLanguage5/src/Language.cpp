@@ -238,15 +238,14 @@ void Language::append(const BigramFreq& bigramFreq){
         
         _vectorBigramFreq[value].setFrequency(newFrequency);
     } else { //If the bigram doesn't exist
-        Language currentLanguage = new Language(*this);
+        Language currentLanguage = *this;
         deallocate();
         allocate(currentLanguage.getSize()+1);
         for (int i=0; i<currentLanguage.getSize()-1; i++){
             (*this)[i] = currentLanguage[i];
         }
         (*this)[_size-1] = bigramFreq;
-        delete currentLanguage;
-        currentLanguage = 0;
+        currentLanguage.deallocate();
     }
 }
 
@@ -277,6 +276,11 @@ std::istream& operator>>(std::istream &is, Language &language){
     int numberOfBigramFreq;
     std::string languageId;
     is >> languageId >> numberOfBigramFreq;
+    
+    if (numberOfBigramFreq < 0){
+        throw std::out_of_range(string("El número de bigramas de "
+                "frequencia no puede ser negativo."));
+    }
     
     language = Language(numberOfBigramFreq);
     language.setLanguageId(languageId);

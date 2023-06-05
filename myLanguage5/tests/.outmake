@@ -9,32 +9,70 @@ make[2]: se entra en el directorio '/home/gonzalo/Escritorio/ProyectosNetbeans/M
 mkdir -p build/Debug/GNU-MacOSX/src
 rm -f "build/Debug/GNU-MacOSX/src/BigramCounter.o.d"
 g++    -c -g -Iinclude -std=c++14 -MMD -MP -MF "build/Debug/GNU-MacOSX/src/BigramCounter.o.d" -o build/Debug/GNU-MacOSX/src/BigramCounter.o src/BigramCounter.cpp
-In file included from include/BigramCounter.h:18,
-                 from src/BigramCounter.cpp:15:
-include/Language.h:211:16: error: ‘BigramFreq Language::operator[](int)’ cannot be overloaded with ‘BigramFreq Language::operator[](int)’
-  211 |     BigramFreq operator[](int index);
-      |                ^~~~~~~~
-include/Language.h:204:16: note: previous declaration ‘BigramFreq Language::operator[](int)’
-  204 |     BigramFreq operator[](int index);
-      |                ^~~~~~~~
-In file included from src/BigramCounter.cpp:15:
-include/BigramCounter.h:53:5: error: invalid constructor; you probably meant ‘BigramCounter (const BigramCounter&)’
-   53 |     BigramCounter(BigramCounter orig);
-      |     ^~~~~~~~~~~~~
-include/BigramCounter.h:166:9: error: ‘int BigramCounter::operator()(int, int)’ cannot be overloaded with ‘int BigramCounter::operator()(int, int)’
-  166 |     int operator()(int row, int column);
-      |         ^~~~~~~~
-include/BigramCounter.h:156:9: note: previous declaration ‘int BigramCounter::operator()(int, int)’
-  156 |     int operator()(int row, int column);
-      |         ^~~~~~~~
-src/BigramCounter.cpp:27:1: error: default argument given for parameter 1 of ‘BigramCounter::BigramCounter(std::string)’
-   27 | BigramCounter::BigramCounter(std::string validChars = DEFAULT_VALID_CHARACTERS){
-      | ^~~~~~~~~~~~~
-In file included from src/BigramCounter.cpp:15:
-include/BigramCounter.h:46:5: note: previous specification in ‘BigramCounter::BigramCounter(std::string)’ here
-   46 |     BigramCounter(std::string validChars = DEFAULT_VALID_CHARACTERS);
-      |     ^~~~~~~~~~~~~
-make[2]: *** [nbproject/Makefile-Debug.mk:70: build/Debug/GNU-MacOSX/src/BigramCounter.o] Error 1
+mkdir -p build/Debug/GNU-MacOSX/src
+rm -f "build/Debug/GNU-MacOSX/src/Language.o.d"
+g++    -c -g -Iinclude -std=c++14 -MMD -MP -MF "build/Debug/GNU-MacOSX/src/Language.o.d" -o build/Debug/GNU-MacOSX/src/Language.o src/Language.cpp
+mkdir -p build/Debug/GNU-MacOSX/src
+rm -f "build/Debug/GNU-MacOSX/src/metamain.o.d"
+g++    -c -g -Iinclude -std=c++14 -MMD -MP -MF "build/Debug/GNU-MacOSX/src/metamain.o.d" -o build/Debug/GNU-MacOSX/src/metamain.o src/metamain.cpp
+mkdir -p dist/Debug/GNU-MacOSX
+g++     -o dist/Debug/GNU-MacOSX/language5 build/Debug/GNU-MacOSX/src/BigramCounter.o build/Debug/GNU-MacOSX/src/Language.o build/Debug/GNU-MacOSX/src/metamain.o 
+/usr/bin/ld: /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/Scrt1.o: en la función `_start':
+(.text+0x1b): referencia a `main' sin definir
+/usr/bin/ld: build/Debug/GNU-MacOSX/src/BigramCounter.o: en la función `BigramCounter::setFrequency(Bigram, int)':
+/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/BigramCounter.cpp:100: referencia a `Bigram::operator[](int)' sin definir
+/usr/bin/ld: /home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/BigramCounter.cpp:101: referencia a `Bigram::operator[](int)' sin definir
+/usr/bin/ld: build/Debug/GNU-MacOSX/src/BigramCounter.o: en la función `BigramCounter::increaseFrequency(Bigram, int)':
+/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/BigramCounter.cpp:114: referencia a `Bigram::operator[](int)' sin definir
+/usr/bin/ld: /home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/BigramCounter.cpp:115: referencia a `Bigram::operator[](int)' sin definir
+/usr/bin/ld: build/Debug/GNU-MacOSX/src/BigramCounter.o: en la función `BigramCounter::operator+=(BigramCounter)':
+/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/BigramCounter.cpp:136: referencia a `Bigram::Bigram(char, char)' sin definir
+/usr/bin/ld: build/Debug/GNU-MacOSX/src/BigramCounter.o: en la función `BigramCounter::calculateFrequencies(char*)':
+/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/BigramCounter.cpp:156: referencia a `isValidCharacter(char, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)' sin definir
+/usr/bin/ld: /home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/BigramCounter.cpp:157: referencia a `isValidCharacter(char, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)' sin definir
+/usr/bin/ld: /home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/BigramCounter.cpp:159: referencia a `Bigram::Bigram(char, char)' sin definir
+/usr/bin/ld: build/Debug/GNU-MacOSX/src/BigramCounter.o: en la función `BigramCounter::toLanguage()':
+/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/BigramCounter.cpp:184: referencia a `Bigram::Bigram(char, char)' sin definir
+/usr/bin/ld: /home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/BigramCounter.cpp:185: referencia a `BigramFreq::BigramFreq()' sin definir
+/usr/bin/ld: /home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/BigramCounter.cpp:186: referencia a `BigramFreq::setBigram(Bigram const&)' sin definir
+/usr/bin/ld: /home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/BigramCounter.cpp:187: referencia a `BigramFreq::setFrequency(int)' sin definir
+/usr/bin/ld: build/Debug/GNU-MacOSX/src/BigramCounter.o: en la función `BigramFreq::operator=(BigramFreq const&)':
+/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/include/BigramFreq.h:27: referencia a `Bigram::operator=(Bigram const&)' sin definir
+/usr/bin/ld: build/Debug/GNU-MacOSX/src/Language.o: en la función `Language::Language(int)':
+/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/Language.cpp:33: referencia a `BigramFreq::BigramFreq()' sin definir
+/usr/bin/ld: build/Debug/GNU-MacOSX/src/Language.o: en la función `Language::allocate(int)':
+/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/Language.cpp:57: referencia a `BigramFreq::BigramFreq()' sin definir
+/usr/bin/ld: build/Debug/GNU-MacOSX/src/Language.o: en la función `Language::getDistance(Language) const':
+/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/Language.cpp:111: referencia a `BigramFreq::getBigram() const' sin definir
+/usr/bin/ld: build/Debug/GNU-MacOSX/src/Language.o: en la función `Language::findBigram(Bigram const&) const':
+/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/Language.cpp:126: referencia a `BigramFreq::getBigram() const' sin definir
+/usr/bin/ld: /home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/Language.cpp:126: referencia a `Bigram::getText[abi:cxx11]() const' sin definir
+/usr/bin/ld: /home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/Language.cpp:126: referencia a `Bigram::getText[abi:cxx11]() const' sin definir
+/usr/bin/ld: build/Debug/GNU-MacOSX/src/Language.o: en la función `Language::toString[abi:cxx11]() const':
+/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/Language.cpp:142: referencia a `BigramFreq::getFrequency() const' sin definir
+/usr/bin/ld: /home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/Language.cpp:141: referencia a `BigramFreq::getBigram() const' sin definir
+/usr/bin/ld: /home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/Language.cpp:141: referencia a `Bigram::getText[abi:cxx11]() const' sin definir
+/usr/bin/ld: build/Debug/GNU-MacOSX/src/Language.o: en la función `Language::sortDraw(BigramFreq const*, int, int)':
+/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/Language.cpp:163: referencia a `BigramFreq::getBigram() const' sin definir
+/usr/bin/ld: /home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/Language.cpp:163: referencia a `Bigram::getText[abi:cxx11]() const' sin definir
+/usr/bin/ld: /home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/Language.cpp:163: referencia a `BigramFreq::getBigram() const' sin definir
+/usr/bin/ld: /home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/Language.cpp:163: referencia a `Bigram::getText[abi:cxx11]() const' sin definir
+/usr/bin/ld: build/Debug/GNU-MacOSX/src/Language.o: en la función `Language::sort()':
+/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/Language.cpp:174: referencia a `BigramFreq::getFrequency() const' sin definir
+/usr/bin/ld: /home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/Language.cpp:174: referencia a `BigramFreq::getFrequency() const' sin definir
+/usr/bin/ld: /home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/Language.cpp:175: referencia a `BigramFreq::getFrequency() const' sin definir
+/usr/bin/ld: /home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/Language.cpp:175: referencia a `BigramFreq::getFrequency() const' sin definir
+/usr/bin/ld: build/Debug/GNU-MacOSX/src/Language.o: en la función `Language::append(BigramFreq const&)':
+/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/Language.cpp:234: referencia a `BigramFreq::getBigram() const' sin definir
+/usr/bin/ld: /home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/Language.cpp:236: referencia a `BigramFreq::getFrequency() const' sin definir
+/usr/bin/ld: /home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/Language.cpp:237: referencia a `BigramFreq::getFrequency() const' sin definir
+/usr/bin/ld: /home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/Language.cpp:239: referencia a `BigramFreq::setFrequency(int)' sin definir
+/usr/bin/ld: build/Debug/GNU-MacOSX/src/Language.o: en la función `operator>>(std::istream&, Language&)':
+/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/Language.cpp:291: referencia a `Bigram::Bigram(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)' sin definir
+/usr/bin/ld: /home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/Language.cpp:294: referencia a `BigramFreq::setBigram(Bigram const&)' sin definir
+/usr/bin/ld: /home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/Language.cpp:295: referencia a `BigramFreq::setFrequency(int)' sin definir
+collect2: error: ld returned 1 exit status
+make[2]: *** [nbproject/Makefile-Debug.mk:65: dist/Debug/GNU-MacOSX/language5] Error 1
 make[2]: se sale del directorio '/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5'
 make[1]: *** [nbproject/Makefile-Debug.mk:61: .build-conf] Error 2
 make[1]: se sale del directorio '/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5'

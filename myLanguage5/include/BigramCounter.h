@@ -102,7 +102,7 @@ public:
      * Input parameter
      * @return A reference to this object
      */
-    BigramCounter operator=(BigramCounter orig);
+    BigramCounter& operator=(BigramCounter &orig);
 
 
     /**
@@ -113,7 +113,7 @@ public:
      * @param rhs a BigramCounter object 
      * @return A reference to this object
      */
-    BigramCounter operator+=(BigramCounter rhs);
+    BigramCounter& operator+=(BigramCounter rhs);
 
     /**
      * @brief Reads the given text file and calculates the frequencies of each 
@@ -124,7 +124,7 @@ public:
      * @param fileName The name of the file to process. Input parameter
      * @return true if the file could be read; false otherwise
      */
-    void calculateFrequencies(char* fileName);
+    bool calculateFrequencies(char* fileName);
 
     /**
      * @brief Builds a Language object from this BigramCounter object. The 
@@ -166,7 +166,7 @@ private:
     int operator()(int row, int column);
     
     
-    void allocate(int rowsAndColumns);
+    void allocate(const int rowsAndColumns);
     void deallocate();
     void copy(const BigramCounter &bigramCounter);
 };

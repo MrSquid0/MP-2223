@@ -1,3 +1,5 @@
+#include <iostream>
+
 /*
  * Metodología de la Programación: Language5
  * Curso 2022/2023
@@ -18,13 +20,14 @@
  * @param outputStream The output stream where the help will be shown (for example,
  * cout, cerr, etc) 
  */
+/*
 void showEnglishHelp(std::ostream& outputStream) {
     outputStream << "Error, run with the following parameters:" << std::endl;
     outputStream << "CLASSIFY <text.txt> <lang1.bgr> [<lang2.bgr> <lang3.bgr> ....]" << std::endl;
     outputStream << "          Obtains the identifier of the closest language to the input text file" << std::endl;
     outputStream << std::endl;
 }
-
+*/
 /**
  * This program print the language identifier of the closest language 
  * for an input text file (<text.txt>) among the set of provided models:
@@ -36,7 +39,8 @@ void showEnglishHelp(std::ostream& outputStream) {
  * @param argv The vector of command line parameters (cstrings)
  * @return 0 If there is no error; a value > 0 if error
  */
-int main(int argc, char *argv[]) {
- 
-}
 
+/*
+int main(int argc, char *argv[]) {
+    
+}*/

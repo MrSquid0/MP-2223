@@ -1,3 +1,7 @@
+#include <iostream>
+#include "BigramCounter.h"
+#include <vector>
+
 /*
  * Metodología de la Programación: Language5
  * Curso 2022/2023
@@ -29,6 +33,23 @@ void showEnglishHelp(std::ostream& outputStream) {
     outputStream << "<text1.txt> <text2.txt> <text3.txt> ....: names of the input files (at least one is mandatory)" << std::endl;
 }
 
+
+bool hasTxtExtension(const std::string& filename) {
+    bool isTxtFormat = false;
+    // Obtener la posición del último punto en el nombre del archivo
+    std::size_t dotPos = filename.find_last_of(".");
+    if (dotPos == std::string::npos) {
+        return false; // No hay extensión en el nombre del archivo
+    }
+
+    // Obtener la extensión del archivo
+    std::string extension = filename.substr(dotPos + 1);
+    if (extension == "txt")
+        isTxtFormat = true;
+    
+    return isTxtFormat;
+}
+
 /**
  * This program learns a Language model from a set of input tex files (tex1.txt,
  * tex2.txt, ...
@@ -39,7 +60,62 @@ void showEnglishHelp(std::ostream& outputStream) {
  * @return 0 If there is no error; a value > 0 if error
  */
 
-int main(int argc, char *argv[]) {   
+int main(int argc, char* argv[]) {
+    std::string mode = "-t"; // Valor por defecto
+    std::string language = "unknown"; // Valor por defecto
+    std::string outputFile = "output.bgr"; // Valor por defecto
+    std::vector<std::string> inputFiles;
 
+    // Verificar que se hayan proporcionado suficientes argumentos
+    if (argc < 2) {
+        showEnglishHelp(std::cerr);
+        return 1;
+    }
+
+    // Procesar los argumentos de línea de comandos
+    for (int i = 1; i < argc; i++) {
+        std::string arg = argv[i];
+
+        if (arg == "-t" || arg == "-b") {
+            mode = arg;
+        } else if (arg == "-l") {
+            i++;
+            if (i < argc) {
+                language = argv[i];
+            }
+        } else if (arg == "-o") {
+            i++;
+            if (i < argc) {
+                outputFile = argv[i];
+            }
+        } else {
+            if (hasTxtExtension(arg)) {
+                inputFiles.push_back(arg);
+            } else {
+                showEnglishHelp(std::cerr);
+                return 1;
+            }
+        }
+    }
+
+    // Verificar que se haya proporcionado al menos un archivo .txt
+    if (inputFiles.empty()) {
+        showEnglishHelp(std::cerr);
+        return 1;
+    }
+
+    // Imprimir los valores de los parámetros
+    std::cout << "Modo: " << mode << std::endl;
+    std::cout << "Idioma: " << language << std::endl;
+    std::cout << "Archivo de salida: " << outputFile << std::endl;
+    std::cout << "Archivos de entrada: ";
+    
+    for (int i=0; i<inputFiles.size(); i++){
+        std::cout << inputFiles[i] << " ";
+    }
+    std::cout << std::endl;
+
+    // Resto del código del programa...
+
+    return 0;
 }
-
