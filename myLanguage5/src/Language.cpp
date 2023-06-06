@@ -191,7 +191,7 @@ void Language::save(const char fileName[]) const{
     std::ofstream language(fileName);
     
     if (language){
-        std::cout << *this;
+        language << *this;
         if (!language){
         throw std::ios_base::failure(string("No se pudo escribir "
                 "en el archivo ") + fileName);
@@ -216,7 +216,7 @@ void Language::load(const char fileName[]){
                     "formato de un fichero language.");
         }
         deallocate();
-        std::cin >> *this;
+        language >> *this;
         
         if (!language){
         throw std::ios_base::failure(string("No se pudo escribir "

@@ -141,7 +141,7 @@ BigramCounter& BigramCounter::operator+=(BigramCounter rhs){
     return *this;
 }
 
-bool BigramCounter::calculateFrequencies(char* fileName){
+bool BigramCounter::calculateFrequencies(std::string fileName){
     bool fileRead = false;
     
     std::fstream bCounter;

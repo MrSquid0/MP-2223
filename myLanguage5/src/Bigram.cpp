@@ -69,7 +69,8 @@ char& Bigram::at(int index){
     return _text[index];
 }
 
-bool isValidCharacter(char character, const std::string& validCharacters){
+bool isValidCharacter(char &character, const std::string& validCharacters){
+    character = tolower(character);
     bool isValid = false;
     for (int i=0; i<validCharacters.size(); i++){
         if (character == validCharacters[i])

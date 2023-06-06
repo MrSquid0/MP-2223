@@ -33,16 +33,20 @@ void showEnglishHelp(std::ostream& outputStream) {
     outputStream << "<text1.txt> <text2.txt> <text3.txt> ....: names of the input files (at least one is mandatory)" << std::endl;
 }
 
+/**
+ * Checks if a text file has the correct extension (.txt)
+ * @param filename The std::string filename to be checked
+ */
 
 bool hasTxtExtension(const std::string& filename) {
     bool isTxtFormat = false;
-    // Obtener la posición del último punto en el nombre del archivo
+    // Get the position of the last period in the file name
     std::size_t dotPos = filename.find_last_of(".");
     if (dotPos == std::string::npos) {
-        return false; // No hay extensión en el nombre del archivo
+        return false; // There is no extension in the file name
     }
 
-    // Obtener la extensión del archivo
+    // Get file extension
     std::string extension = filename.substr(dotPos + 1);
     if (extension == "txt")
         isTxtFormat = true;
@@ -61,18 +65,19 @@ bool hasTxtExtension(const std::string& filename) {
  */
 
 int main(int argc, char* argv[]) {
-    std::string mode = "-t"; // Valor por defecto
-    std::string language = "unknown"; // Valor por defecto
-    std::string outputFile = "output.bgr"; // Valor por defecto
+    //Default values
+    std::string mode = "-t";
+    std::string languageId = "unknown";
+    std::string outputFile = "output.bgr";
     std::vector<std::string> inputFiles;
 
-    // Verificar que se hayan proporcionado suficientes argumentos
+    // Check that enough arguments have been supplied
     if (argc < 2) {
         showEnglishHelp(std::cerr);
         return 1;
     }
 
-    // Procesar los argumentos de línea de comandos
+    // Process command line arguments
     for (int i = 1; i < argc; i++) {
         std::string arg = argv[i];
 
@@ -81,7 +86,7 @@ int main(int argc, char* argv[]) {
         } else if (arg == "-l") {
             i++;
             if (i < argc) {
-                language = argv[i];
+                languageId = argv[i];
             }
         } else if (arg == "-o") {
             i++;
@@ -98,24 +103,25 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    // Verificar que se haya proporcionado al menos un archivo .txt
+    // Verify that at least one .txt file has been provided
     if (inputFiles.empty()) {
         showEnglishHelp(std::cerr);
         return 1;
     }
-
-    // Imprimir los valores de los parámetros
-    std::cout << "Modo: " << mode << std::endl;
-    std::cout << "Idioma: " << language << std::endl;
-    std::cout << "Archivo de salida: " << outputFile << std::endl;
-    std::cout << "Archivos de entrada: ";
     
+    // Create a BigramCounter object
+    BigramCounter bCounter;
+    
+    // Calculate all the frequencies of each .txt file and insert into bCounter
     for (int i=0; i<inputFiles.size(); i++){
-        std::cout << inputFiles[i] << " ";
+        bCounter.calculateFrequencies(inputFiles[i]);
     }
-    std::cout << std::endl;
-
-    // Resto del código del programa...
-
-    return 0;
+    
+    // Transform the BigramCounter object into a language object 
+    // and assign the languageId
+    Language languageObject = bCounter.toLanguage();
+    languageObject.setLanguageId(languageId);
+    
+    // Save the language object into a .bgr file
+    languageObject.save(outputFile.c_str());
 }

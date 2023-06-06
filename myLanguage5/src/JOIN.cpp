@@ -20,7 +20,7 @@
  * @param outputStream The output stream where the help will be shown (for example,
  * cout, cerr, etc) 
  */
-/*
+
 void showEnglishHelp(std::ostream& outputStream) {
     outputStream << "Error, run with the following parameters:" << std::endl;
     outputStream << "JOIN [-t|-b] [-o <outputFile.bgr>] <file1.bgr> [<file2.bgr> ... <filen.bgr>] " << std::endl;
@@ -30,7 +30,7 @@ void showEnglishHelp(std::ostream& outputStream) {
     outputStream << "-t|-b: text mode or binary mode for the output file (-t by default)" << std::endl;
     outputStream << "-o <outputFile.bgr>: name of the output file (output.bgr by default)" << std::endl;
     outputStream << "<file*.bgr>: each one of the files to be joined" << std::endl;
-}*/
+}
 
 /**
  * This program reads an undefined number of Language objects from the files
@@ -46,7 +46,7 @@ void showEnglishHelp(std::ostream& outputStream) {
  * @return 0 If there is no error; a value > 0 if error
  */
 
-/*
+
 int main(int argc, char* argv[]) {
-    
-}*/
+    return 0;
+}

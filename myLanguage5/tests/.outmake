@@ -27,9 +27,9 @@ g++     -o dist/Debug/GNU-MacOSX/language5 build/Debug/GNU-MacOSX/src/BigramCoun
 /usr/bin/ld: /home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/BigramCounter.cpp:115: referencia a `Bigram::operator[](int)' sin definir
 /usr/bin/ld: build/Debug/GNU-MacOSX/src/BigramCounter.o: en la función `BigramCounter::operator+=(BigramCounter)':
 /home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/BigramCounter.cpp:136: referencia a `Bigram::Bigram(char, char)' sin definir
-/usr/bin/ld: build/Debug/GNU-MacOSX/src/BigramCounter.o: en la función `BigramCounter::calculateFrequencies(char*)':
-/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/BigramCounter.cpp:156: referencia a `isValidCharacter(char, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)' sin definir
-/usr/bin/ld: /home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/BigramCounter.cpp:157: referencia a `isValidCharacter(char, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)' sin definir
+/usr/bin/ld: build/Debug/GNU-MacOSX/src/BigramCounter.o: en la función `BigramCounter::calculateFrequencies(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)':
+/home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/BigramCounter.cpp:156: referencia a `isValidCharacter(char&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)' sin definir
+/usr/bin/ld: /home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/BigramCounter.cpp:157: referencia a `isValidCharacter(char&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)' sin definir
 /usr/bin/ld: /home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/BigramCounter.cpp:159: referencia a `Bigram::Bigram(char, char)' sin definir
 /usr/bin/ld: build/Debug/GNU-MacOSX/src/BigramCounter.o: en la función `BigramCounter::toLanguage()':
 /home/gonzalo/Escritorio/ProyectosNetbeans/MP-2223/myLanguage5/src/BigramCounter.cpp:184: referencia a `Bigram::Bigram(char, char)' sin definir
