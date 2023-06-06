@@ -36,6 +36,7 @@ void showEnglishHelp(std::ostream& outputStream) {
 /**
  * Checks if a text file has the correct extension (.txt)
  * @param filename The std::string filename to be checked
+ * @return true if the extension of the file is .txt; false otherwise
  */
 
 bool hasTxtExtension(const std::string& filename) {
@@ -124,4 +125,6 @@ int main(int argc, char* argv[]) {
     
     // Save the language object into a .bgr file
     languageObject.save(outputFile.c_str());
+    
+    return 0;
 }

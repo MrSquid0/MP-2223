@@ -1,4 +1,4 @@
-#!  /bin/bash
+#!/bin/bash
 # Author: Luis Castillo Vidal L.Castillo@decsai.ugr.es
 # Pass test file $1
 
@@ -19,6 +19,56 @@ function doTest  {
     # Parse the codes for the call
     if grep --quiet $CALL_MARK $1; # Cond1
     then 
+        MAKEOUT=$TESTS_FOLDER/.outmake
+        if  grep --quiet $RELEASE_MARK $1; 
+        then
+            LINE=$(grep $RELEASE_MARK $1 | sed "s/$RELEASE_MARK //")
+            RELEASE=$LINE
+        fi
+
+        if [ "$DO_INTERACTIVE" == "YES" ]
+        then
+            printf "${WHITE}Generating fresh binaries \t${GRAY}"
+        #    make -f Makefile CONF=$RELEASE clean
+            make -f Makefile CONF=$RELEASE build &> $MAKEOUT
+        #    printf "${WHITE}Generating fresh binaries \t${GRAY}"
+        #    make  -f Makefile CONF=$RELEASE clean &> $MAKEOUT
+        #   # make build | tee make.out
+        #    make -f Makefile CONF=$RELEASE build &>> $MAKEOUT
+        else
+            printf "${WHITE}Generating fresh binaries \t${GRAY}"
+        #    make -f Makefile CONF=$RELEASE clean 
+            make -f Makefile CONF=$RELEASE build &> $MAKEOUT
+        #    make -f Makefile CONF=$RELEASE clean &> $MAKEOUT 
+        #    make -f Makefile CONF=$RELEASE build &>> $MAKEOUT
+        fi
+
+        if  grep -i Error $MAKEOUT;
+        then
+           printf "${RED} Failed build${WHITE}\n"
+           exit
+        else
+        #BINARY=$(grep "g++[^ ]*[ \t]*-o" $MAKEOUT | sed "s/^.*-o //;s/ build.*$//")
+            printf "${GREEN}"$BINARY"${WHITE}\n"
+        fi
+
+        if  grep --quiet $RELEASE_MARK $1; 
+        then
+            BINARY=./dist/$RELEASE/GNU-Linux/$RELEASE
+        else
+            if grep "está actualizado" $MAKEOUT;
+            then
+                BINARY=$(grep "está actualizado" $MAKEOUT | sed "s/^.*'dist/dist/;s/' está actualizado.*$//")
+            elif grep "is up to date" $MAKEOUT;
+            then
+                BINARY=$(grep "is up to date" $MAKEOUT | sed "s/^.*'dist/dist/;s/' is up to date.*$//")
+            else
+                BINARY=$(grep "g++ .* -o dist/" $MAKEOUT | sed "s/^.*-o //;s/ build.*$//")
+            fi
+            #BINARY=$(grep "g++ .* -o dist/" $MAKEOUT | sed "s/^.*-o //;s/ build.*$//")
+            #    grep $RELEASE_MARK $1
+        fi
+
         MYCALL=$(grep $CALL_MARK $1 | sed s/$CALL_MARK//)
         # Parse the expected output from the test
         DUE_OUTPUT=$(sed -n /$OUTPUT_MARK/,\$p $1)
@@ -41,14 +91,14 @@ function doTest  {
         # Auto-compose a shell for the purpose of trying the binary
         # uses the .timeout file as a lock to detect that the program has ended
         echo "touch $TESTS_FOLDER/.timeout">$TESTS_FOLDER/.run.sh
-        echo "CMD=\"$VALGRIND $FULL_BINARY $MYCALL 1> $TESTS_FOLDER/.out$k 2>&1\"">> $TESTS_FOLDER/.run.sh
+        echo "CMD=\"$FULL_BINARY $MYCALL 1> $TESTS_FOLDER/.out$k 2>&1\"">> $TESTS_FOLDER/.run.sh
         echo "eval \$CMD">>$TESTS_FOLDER/.run.sh
         echo "rm $TESTS_FOLDER/.timeout">>$TESTS_FOLDER/.run.sh
         chmod u+x $TESTS_FOLDER/.run.sh
         # Runs the shell with a timeout to prevent hanging
         timeout --preserve-status -k $SECS_WAIT $SECS_WAIT sh $TESTS_FOLDER/.run.sh
         #rm $TESTS_FOLDER/.run.sh
-        
+
         # Check the output both the program and Valgrind
         if [ $USE_VALGRIND == "YES" ] || [ $FORCE_VALGRIND == "YES" ]
         then 
@@ -90,6 +140,12 @@ function doTest  {
         # Save due and real outputs in disk for further use
         # echo "$DUE_OUTPUT" > $TESTS_FOLDER/.due$k
         echo "$REAL_OUTPUT" > $TESTS_FOLDER/.real$k
+        if   file $TESTS_FOLDER/.real$k | grep -a --quiet ISO;
+        then
+            toUTF8 $TESTS_FOLDER/.real$k
+            cp $TESTS_FOLDER/.real$k.utf8 $TESTS_FOLDER/.real$k
+            REAL_OUTPUT=$(cat $TESTS_FOLDER/.real$k)
+        fi 
         # When both outputs (expected and real) differ or valgrind detects leaks of memory
         # the test FAILS
         if [ -f $TESTS_FOLDER/.timeout ]
@@ -100,7 +156,7 @@ function doTest  {
             FAILED_TESTS=YES
         elif [ ! "$DUE_OUTPUT" == "$REAL_OUTPUT" ] || [ "$VALGRIND_LEAKS" == "TRUE" ]
         then
-            
+
             printf  "\r${RED}[FAILED] Test #$k [$1] ($VALGRIND $BINARY $MYCALL) $VALGRIND_OUTPUT"
             cp $TESTS_FOLDER/.out$k $TESTS_FOLDER/.fail$k
             FAILED_TESTS=YES
@@ -118,10 +174,12 @@ function doTest  {
 if [ -d ../Scripts ]
 then
     source ../Scripts/doConfig.sh
+       source ../Scripts/ansiterminal.sh
 else
    if [ -d ../../Scripts ]
    then
        source ../../Scripts/doConfig.sh
+       source ../../Scripts/ansiterminal.sh
    else
     printf "\n${RED}Unable to find Scripts library${WHITE}\n\n"
     exit
@@ -159,6 +217,7 @@ DESCRIPTION_MARK="%%%DESCRIPTION"
 OUTPUT_MARK="%%%OUTPUT"
 OUTPUTFILE_MARK="%%%FROMFILE"
 VALGRIND_MARK="%%%VALGRIND"
+RELEASE_MARK="%%%RELEASE"
 # Auxiliary files
 # .out* Raw output of the run
 # .due* Expected predefined output
@@ -171,27 +230,10 @@ rm -f $TESTS_FOLDER/.out* $TESTS_FOLDER/.due* $TESTS_FOLDER/.real* $TESTS_FOLDER
 FAILED_TESTS=NO
 k=1
 # Prebuild the command line for the call 
+RELEASE="Debug"
+
 printf "${GREEN}OK ${WHITE}\n"
-MAKEOUT=$TESTS_FOLDER/.outmake
-if [ "$DO_INTERACTIVE" == "YES" ]
-then
-    printf "${WHITE}Generating fresh binaries\t${GRAY}"
-    make clean &> $MAKEOUT
-   # make build | tee make.out
-    make build &>> $MAKEOUT
-else
-    printf "${WHITE}Generating fresh binaries\t${GRAY}"
-    make clean &> $MAKEOUT 
-    make &>> $MAKEOUT
-fi
-if  grep -i Error $MAKEOUT;
-then
-       printf "${RED} Failed build${WHITE}\n"
-        exit
-else
-BINARY=$(grep "g++[^ ]*[ \t]*-o" $MAKEOUT | sed "s/^.*-o //;s/ build.*$//")
-printf "${GREEN}"$BINARY"${WHITE}\n"
-fi
+
 # Execute tests
 k=1
 for test in $TESTS
@@ -262,8 +304,9 @@ then
 fi
 # Remove auxiliary files
 rm -f $TESTS_FOLDER/.out* $TESTS_FOLDER/.due* $TESTS_FOLDER/.real* $TESTS_FOLDER/.fail* $TESTS_FOLDER/.call*
-printf "${WHITE}"
+EndOfScript "End of tests"
 if [ "$FAILED_TESTS" == "YES" ]
 then
     exit 1
 fi
+
