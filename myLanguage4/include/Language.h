@@ -204,7 +204,7 @@ public:
      * append the pairs bigram-frequency contained in the Language @p language
      * @param language A Language object 
      */
-    void join(const Language& language);
+    void join(const Language& language);    
       
 private:
     std::string _languageId; ///< language identifier

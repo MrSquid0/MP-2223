@@ -219,7 +219,7 @@ void Language::load(const char fileName[]){
         language >> this->_size;
         deallocate();
         allocate(_size);
-
+        
         for (int i=0; i<_size; i++){
             std::string textBigram;
             language >> textBigram;

@@ -49,12 +49,12 @@ bool hasExpectedExtension(const std::string& filename, const std::string& expect
 }
 
 /**
- * It returns the index of the array that the distance is the nearest
- * or the farthest to the first language.
- * @param language The first language given
+ * It returns the index of the array that the distance is the nearest 
+ * to Language language.
+ * @param language The language to be compared
  * @param array[] The array of languages given
  * @param nElements The number of elements of the array
- * @return the index of the array of the nearest distance
+ * @return the index of the array that has the nearest distance
  */
 int findIndexMinimumDistance(const Language& language, const Language array[],
                       int nElements){
