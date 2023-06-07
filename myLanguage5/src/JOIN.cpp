@@ -74,7 +74,7 @@ int main(int argc, char* argv[]) {
     //Default values
     std::string mode = "-t";
     std::string outputFile = "output.bgr";
-    std::vector<std::string> inputFiles;
+    std::vector<std::string> languageFiles;
 
     // Check that enough arguments have been supplied
     if (argc < 2) {
@@ -98,7 +98,7 @@ int main(int argc, char* argv[]) {
             }
         } else {
             if (hasBgrExtension(arg)) {
-                inputFiles.push_back(arg);
+                languageFiles.push_back(arg);
             } else {
                 showEnglishHelp(std::cerr);
                 return 1;
@@ -107,23 +107,19 @@ int main(int argc, char* argv[]) {
     }
 
     // Verify that at least one .bgr file has been provided
-    if (inputFiles.empty()) {
+    if (languageFiles.empty()) {
         showEnglishHelp(std::cerr);
         return 1;
     }
     
-    int readLanguages = 0; //Languages that have been read, one (the first)
-                           //by default
-    
     Language firstLanguage;
-    firstLanguage.load(inputFiles[0].c_str()); //Loads the first language
+    firstLanguage.load(languageFiles[0].c_str()); //Loads the first language
     std::string languageOfTheFirstFile = firstLanguage.getLanguageId();
-    readLanguages++;
     
     Language fusion = firstLanguage;
-    for (int i=1; i<inputFiles.size(); i++){
+    for (int i=1; i<languageFiles.size(); i++){
         Language nextLanguage;
-        nextLanguage.load(inputFiles[i].c_str()); //Loads every language
+        nextLanguage.load(languageFiles[i].c_str()); //Loads every language
         
         //Checks if the current languageId is equal to the first one
         if (nextLanguage.getLanguageId() == languageOfTheFirstFile){

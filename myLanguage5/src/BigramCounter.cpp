@@ -150,18 +150,15 @@ bool BigramCounter::calculateFrequencies(std::string fileName){
     if (bCounter){
         fileRead = true;
         char currentCharacter;
-        char previousChar;
-        bool primeraVez = true;
+        char previousChar = ' ';
         while (bCounter.get(currentCharacter)) {
-            if ((isValidCharacter(currentCharacter, _validCharacters)) && 
-                    (isValidCharacter(previousChar, _validCharacters))){
-                if (!primeraVez){
-                    Bigram bigram(previousChar, currentCharacter);
-                    this->increaseFrequency(bigram);
-                }
+            currentCharacter = tolower(currentCharacter);
+            if ((_validCharacters.find(currentCharacter) != std::string::npos) && 
+                    (_validCharacters.find(previousChar) != std::string::npos)){
+                        Bigram bigram(previousChar, currentCharacter);
+                        this->increaseFrequency(bigram);
             }
             previousChar = currentCharacter;
-            primeraVez = false;
         }
         bCounter.close();
     }else{

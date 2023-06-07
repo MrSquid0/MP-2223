@@ -238,13 +238,13 @@ void Language::append(const BigramFreq& bigramFreq){
         
         _vectorBigramFreq[value].setFrequency(newFrequency);
     } else { //If the bigram doesn't exist
-        Language currentLanguage = *this;
+        Language currentLanguage(*this);
         deallocate();
         allocate(currentLanguage.getSize()+1);
-        for (int i=0; i<currentLanguage.getSize()-1; i++){
-            (*this)[i] = currentLanguage[i];
+        for (int i=0; i<_size-1; i++){
+            _vectorBigramFreq[i] = currentLanguage[i];
         }
-        (*this)[_size-1] = bigramFreq;
+        _vectorBigramFreq[_size-1] = bigramFreq;
         currentLanguage.deallocate();
     }
 }

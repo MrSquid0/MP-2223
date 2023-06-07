@@ -52,35 +52,23 @@ bool hasExpectedExtension(const std::string& filename, const std::string& expect
  * It returns the index of the array that the distance is the nearest
  * or the farthest to the first language.
  * @param language The first language given
- * @param array[] The array of languages given (not the first one included)
+ * @param array[] The array of languages given
  * @param nElements The number of elements of the array
- * @param operation The operation to be done (minimum or maximum distance)
+ * @return the index of the array of the nearest distance
  */
-int posMinMaxLanguage(const Language& language, const Language array[],
-                      int nElements, char operation ){
-    int min = 0, max = 0;
+int findIndexMinimumDistance(const Language& language, const Language array[],
+                      int nElements){
+    int min = 0;
     double currentMinDistance = language.getDistance(array[0]);
-    double currentMaxDistance = currentMinDistance;
     for (int i=1; i<nElements; i++){
         double currentDistance = language.getDistance(array[i]);
         if (currentDistance < currentMinDistance){
             min = i;
             currentMinDistance = currentDistance;
         }
-        
-        if (currentDistance > currentMaxDistance){
-            max = i;
-            currentMaxDistance = currentDistance;
-        }
     }
     
-    int returnValue;
-    if (operation == 'm'){ //If minimum distance
-        returnValue = min;
-    } else{ //If maximum distance
-        returnValue = max;
-    }
-    return returnValue;
+    return min;
 }
 
 /**
@@ -129,10 +117,8 @@ int main(int argc, char* argv[]) {
     // Create a BigramCounter object
     BigramCounter bCounter;
     
-    // Calculate all the frequencies of each .txt file and insert into bCounter
-    for (int i=0; i<languageFiles.size(); i++){
-        bCounter.calculateFrequencies(languageFiles[i]);
-    }
+    // Calculate all the frequencies of the text file and insert into bCounter
+    bCounter.calculateFrequencies(textFile);
     
     // Transform the BigramCounter object into a Language object 
     // and assign the languageId
@@ -147,19 +133,19 @@ int main(int argc, char* argv[]) {
     for (int i=0; i<languageFiles.size(); i++)
         array[i].load(languageFiles[i].c_str());
     
-    std::cout << array[0];
+    //std::cout << languageObject;
     
     // Calculate the position where the closest of the first Language is
-    int languageMinMax = posMinMaxLanguage(languageObject, array, 
-            languageFiles.size(), 'm');
+    int indexLanguageArray = findIndexMinimumDistance(languageObject, array, 
+            languageFiles.size());
     
     // Assigns the correct language to the Language object
-    languageObject.setLanguageId(array[languageMinMax].getLanguageId());
+    languageObject.setLanguageId(array[indexLanguageArray].getLanguageId());
     
     // Prints to the terminal
     std::cout << "Final decision: language " 
             << languageObject.getLanguageId() << " with a distance of "  
-            << languageObject.getDistance(array[languageMinMax]) << std::endl;
+            << languageObject.getDistance(array[indexLanguageArray]) << std::endl;
     
     //Deallocate dynamic memory
     delete [] array;

@@ -118,7 +118,7 @@ private:
  * @return true if the given character is contained in @p validCharacters; false
  * otherwise
  */
-bool isValidCharacter(char &character, const std::string& validCharacters);
+bool isValidCharacter(char character, const std::string& validCharacters);
 
 /**
  * @brief Overloading of the stream insertion operator for Bigram class
